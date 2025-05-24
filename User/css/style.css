@@ -1,0 +1,620 @@
+/* ----- Reset & General ----- */
+body {
+    background-color: #f8f9fa;
+    font-family: 'IRANSans';
+  }
+
+  
+
+  .navbar {
+    padding: 1rem 2rem;
+  }
+  
+  .site-name {
+    font-size: 24px;
+    font-weight: bold;
+  }
+  
+  .navbar-nav .nav-item {
+    margin-left: 20px; /* فاصله بین آیتم‌ها */
+  }
+  
+  
+  /* ----- Hero Section ----- */
+  .hero {
+    background-color: #343a40;
+    color: white;
+    padding: 4rem 2rem;
+    text-align: center;
+  }
+  
+  /* ----- Font Cards ----- */
+  .font-card {
+    background-color: white;
+    border-radius: 10px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* ----- Footer ----- */
+  footer {
+    background-color: #212529;
+    color: white;
+    text-align: center;
+    padding: 1rem 0;
+  }
+  
+  /* Optional: Styling for buttons or icons if needed later */
+  /* .btn-custom {
+     ... custom styles
+  } */
+  
+  .timer {
+    font-size: 16px; /* اندازه فونت کوچک‌تر */
+    color: #898d91;  /* رنگ تایمر */
+    font-family: Arial, sans-serif; /* نوع فونت */
+    font-weight: bold; /* ضخامت فونت */
+    margin-top: 10px; /* فاصله از بالای تایمر */
+  }
+  
+
+  /* استایل برای کادر تایپ */
+.font-test-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh; /* مرکز صفحه */
+  }
+  
+  .font-test-input {
+    width: 50%; /* عرض کمتر */
+    height: 120px; /* ارتفاع بیشتر */
+    font-size: 18px;
+    padding: 10px;
+    margin-bottom: 30px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+  }
+  
+  /* استایل برای دکمه‌ها */
+  .font-btn-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+  }
+  
+  .font-btn {
+    padding: 10px 15px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .font-btn:hover {
+    background-color: #f0f0f0;
+  }
+  
+  .post-text{
+    padding: 30px;
+  }
+
+  .str{
+    margin-bottom: 10%;
+  }
+
+
+  /*ارشیو*/
+  img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 5px;
+  }
+  
+  .read-more {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 8px 15px;
+    background: #007BFF;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 14px;
+  }
+  
+  .read-more:hover {
+    background: #0056b3;
+  }
+
+  .thumbnail {
+    cursor: pointer;
+    max-width: 80px;
+  }
+  .main-image {
+    width: 100%;
+    height: auto;
+  }body {
+  background-color: #f9f9f9;
+  font-family: "Vazirmatn", sans-serif;
+}
+
+.site-name h1 {
+  margin: 0;
+}
+
+#menu-list li {
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+#menu-list li:hover {
+  background-color: #f0f0f0;
+  transform: translateX(-4px);
+}
+#menu-list li.active {
+  background-color: #0d6efd;
+  color: white;
+}
+
+.animated-panel {
+  animation: fadeInUp 1s ease-in-out;
+}
+
+.fade-in-content {
+  animation: fadeIn 1s ease-in;
+}
+
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.card {
+  border-radius: 1rem;
+}
+body {
+  background-color: #f9f9f9;
+  font-family: "Vazirmatn", sans-serif;
+}
+
+.site-name h1 {
+  margin: 0;
+}
+
+#menu-list li {
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+#menu-list li:hover {
+  background-color: #f0f0f0;
+  transform: translateX(-4px);
+}
+#menu-list li.active {
+  background-color: #0d6efd;
+  color: white;
+}
+
+.animated-panel {
+  animation: fadeInUp 1s ease-in-out;
+}
+
+.fade-in-content {
+  animation: fadeIn 1s ease-in;
+}
+
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.card {
+  border-radius: 1rem;
+}
+body {
+  animation: fadePageIn 1.2s ease-in-out;
+  font-family: 'Vazir', sans-serif;
+}
+
+/* Fade In Page */
+@keyframes fadePageIn {
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
+    filter: blur(5px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+/* Accordion Card Style */
+.accordion-item {
+  border: none;
+  border-radius: 12px;
+  margin-bottom: 1rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  background: linear-gradient(135deg, #ffffff, #f8f9fa);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.accordion-item:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.15);
+}
+
+/* Accordion Button Style */
+.accordion-button {
+  font-weight: bold;
+  font-size: 1.1rem;
+  background: linear-gradient(to left, #e3f2fd, #bbdefb);
+  color: #0d6efd;
+  border-radius: 12px !important;
+  transition: background 0.4s ease, color 0.4s ease;
+}
+
+.accordion-button:not(.collapsed) {
+  background: #0d6efd;
+  color: white;
+}
+
+.accordion-button:hover {
+  background: #2196f3;
+  color: white;
+}
+
+/* Accordion Icon Animation */
+.accordion-button .icon {
+  transition: transform 0.3s ease;
+}
+
+.accordion-button[aria-expanded="true"] .icon {
+  transform: rotate(45deg);
+}
+
+/* Accordion Body Animation */
+.accordion-collapse {
+  animation: fadeInAccordion 0.4s ease-in-out;
+}
+
+@keyframes fadeInAccordion {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Smooth Text */
+.accordion-body {
+  line-height: 2;
+  color: #333;
+}
+/* darkmode.css */
+
+body.dark-mode {
+  background-color: #121212 !important;
+  color: #f1f1f1 !important;
+}
+
+.navbar.dark-mode {
+  background-color: #1e1e1e !important;
+}
+
+.accordion-button:not(.collapsed).dark-mode {
+  background-color: #222;
+  color: #fff;
+}
+
+#themeToggle {
+  font-size: 1.3rem;
+  transition: transform 0.3s;
+}
+#themeToggle:hover {
+  transform: rotate(20deg);
+}
+
+
+    /*اسکرول*/
+    #scrollToTopBtn {
+  position: fixed;
+  bottom: 30px;
+  left: 30px; /* برای راست‌چین، اینو بذار سمت چپ */
+  z-index: 99;
+  font-size: 18px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  outline: none;
+  padding: 12px 16px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: none;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+#scrollToTopBtn:hover {
+  background-color: #0056b3;
+}
+
+
+  /*Ai chat */
+
+    .chat-container {
+      width: 100%;
+      height: 100vh;
+      max-height: 800px;
+      background: #1e293b;
+      box-shadow: 0 0 25px rgba(0,0,0,0.6);
+      margin: auto;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .chat-header {
+      background: linear-gradient(90deg, #2563eb, #3b82f6);
+      color: white;
+      padding: 20px;
+      font-size: 24px;
+      font-weight: 700;
+      text-align: center;
+      flex-shrink: 0;
+    }
+
+    .chat-messages {
+      flex-grow: 1;
+      overflow-y: auto;
+      padding: 20px;
+      background: #334155;
+      border-radius: 0 0 20px 20px;
+    }
+
+    .message {
+      max-width: 70%;
+      padding: 14px 20px;
+      border-radius: 25px;
+      margin-bottom: 18px;
+      font-size: 16px;
+      position: relative;
+      animation: fadeInUp 0.3s ease forwards;
+    }
+
+    @keyframes fadeInUp {
+      from {opacity: 0; transform: translateY(15px);}
+      to {opacity: 1; transform: translateY(0);}
+    }
+
+    .bot-message {
+      background-color: #475569;
+      color: #f1f5f9;
+      align-self: flex-start;
+      border-top-left-radius: 0;
+    }
+
+    .user-message {
+      background-color: #2563eb;
+      color: white;
+      align-self: flex-end;
+      border-top-right-radius: 0;
+    }
+
+    .chat-input input {
+      background: #475569;
+      color: #e2e8f0;
+      border-radius: 30px;
+      border: none;
+    }
+
+    .chat-input input::placeholder {
+      color: #a1aebf;
+    }
+
+    .chat-input input:focus {
+      background-color: #64748b;
+    }
+
+    .chat-input button {
+      background-color: #3b82f6;
+      color: white;
+      border-radius: 30px;
+      font-weight: 600;
+    }
+
+    .chat-input button:hover {
+      background-color: #1d4ed8;
+    }
+
+
+    
+
+/* ----- Modal ----- */
+
+
+  /* Background overlay */
+  .modal-overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.5);
+    backdrop-filter: blur(5px);
+    display: none; /* Hidden by default */
+    align-items: center;
+    justify-content: center;
+    z-index: 1050;
+    padding: 1rem;
+  }
+  /* Modal box */
+  .modal-content {
+    max-width: 400px;
+    width: 100%;
+    border-radius: 1rem; /* گوشه گرد */
+    animation: modalFadeIn 0.3s ease forwards;
+  }
+  /* ظاهر آرام */
+  @keyframes modalFadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-20px);
+    } 
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  /* ورودی و دکمه ها */
+  #forgotPasswordForm input {
+    font-size: 1.1rem;
+  }
+  #forgotPasswordForm button {
+    font-size: 1.1rem;
+  }
+
+  /*shop card*/
+    .thumbnail {
+    cursor: pointer;
+    max-width: 80px;
+  }
+  .main-image {
+    width: 100%;
+    height: auto;
+  }
+
+
+  .payment-info {
+    background: blue;
+    padding: 10px;
+    border-radius: 6px;
+    color: #fff;
+    font-weight: bold;
+  }
+  
+  .product-details {
+    padding: 10px;
+  }
+  
+  /*body {
+    background: #eee;
+  }*/
+  
+  .cart {
+    background: #fff;
+  }
+  
+  .p-about {
+    font-size: 12px;
+  }
+  
+  .table-shadow {
+    -webkit-box-shadow: 5px 5px 15px -2px rgba(0,0,0,0.42);
+    box-shadow: 5px 5px 15px -2px rgba(0,0,0,0.42);
+  }
+  
+  .type {
+    font-weight: 400;
+    font-size: 10px;
+  }
+  
+  label.radio {
+    cursor: pointer;
+  }
+  
+  label.radio input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+  
+  label.radio span {
+    padding: 1px 12px;
+    border: 2px solid #ada9a9;
+    display: inline-block;
+    color: #8f37aa;
+    border-radius: 3px;
+    text-transform: uppercase;
+    font-size: 11px;
+    font-weight: 300;
+  }
+  
+  label.radio input:checked + span {
+    border-color: #fff;
+    background-color: blue;
+    color: #fff;
+  }
+  
+  .credit-inputs {
+    background: rgb(102,102,221);
+    color: #fff !important;
+    border-color: rgb(102,102,221);
+  }
+  
+  .credit-inputs::placeholder {
+    color: #fff;
+    font-size: 13px;
+  }
+  
+  .credit-card-label {
+    font-size: 9px;
+    font-weight: 300;
+  }
+  
+  .form-control.credit-inputs:focus {
+    background: rgb(102,102,221);
+    border: rgb(102,102,221);
+  }
+  
+  .line {
+    border-bottom: 1px solid rgb(102,102,221);
+  }
+  
+  .information span {
+    font-size: 12px;
+    font-weight: 500;
+  }
+  
+  .information {
+    margin-bottom: 5px;
+  }
+  
+  .items {
+    -webkit-box-shadow: 5px 5px 4px -1px rgba(0,0,0,0.25);
+    box-shadow: 5px 5px 4px -1px rgba(0, 0, 0, 0.08);
+  }
+  
+  .spec {
+    font-size: 11px;
+  }
