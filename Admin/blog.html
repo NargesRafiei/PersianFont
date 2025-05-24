@@ -1,0 +1,148 @@
+<!-- صفحه وبلاگ / مقالات -->
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>مدیریت وبلاگ</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.rtl.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn&display=swap" rel="stylesheet">
+      <link rel="stylesheet" href="css/style.css" />
+  <style>
+    body {
+      font-family: 'Vazirmatn', sans-serif;
+      background-color: #f8f9fa;
+    }
+    .nav-link.active {
+      font-weight: bold;
+      color: #0d6efd !important;
+    }
+    .blog-image {
+      width: 50px;
+      height: 50px;
+      object-fit: cover;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+
+
+    <!-- نوار بالا -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary px-3">
+    <a class="navbar-brand text-white" href="index.html"> 📘 پنل مدیریت</a>
+  </nav>
+  <div class="container-fluid">
+    <div class="row">
+      <!-- سایدبار -->
+      <div class="col-md-2 bg-white shadow-sm pt-4" style="min-height: 100vh;">
+        <ul class="nav flex-column">
+          <li class="nav-item"><a class="nav-link text-dark" href="index.html">داشبورد</a></li>
+          <li class="nav-item"><a class="nav-link text-dark" href="fonts.html">مدیریت فونت‌ها</a></li>
+          <li class="nav-item"><a class="nav-link text-dark" href="orders.html">سفارش‌ها</a></li>
+          <li class="nav-item"><a class="nav-link text-dark" href="users.html">کاربران</a></li>
+          <li class="nav-item"><a class="nav-link text-dark" href="comments.html">نظرات</a></li>
+          <li class="nav-item"><a class="nav-link text-dark" href="discounts.html">کدهای تخفیف</a></li>
+          <li class="nav-item"><a class="nav-link active" href="blog.html">وبلاگ</a></li>
+       
+        </ul>
+      </div>
+      <!-- محتوای اصلی -->
+      <div class="col-md-10 p-4">
+        <div class="d-flex justify-content-between mb-3">
+          <h4>مدیریت وبلاگ / مقالات</h4>
+          <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addPostModal">افزودن مقاله</button>
+        </div>
+        <table class="table table-bordered">
+          <thead class="table-light">
+            <tr>
+              <th>تصویر</th>
+              <th>عنوان</th>
+              <th>دسته‌بندی</th>
+              <th>تاریخ</th>
+              <th>نظرات</th>
+              <th>عملیات</th>
+            </tr>
+          </thead>
+          <tbody id="blogTableBody">
+            <!-- مقاله‌ها در اینجا قرار می‌گیرند -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal افزودن مقاله -->
+  <div class="modal fade" id="addPostModal" tabindex="-1" aria-labelledby="addPostModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="addPostModalLabel">افزودن مقاله جدید</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="بستن"></button>
+        </div>
+        <div class="modal-body">
+          <form id="blogForm">
+            <div class="mb-3">
+              <label class="form-label">عنوان مقاله</label>
+              <input type="text" class="form-control" id="postTitle" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">دسته‌بندی</label>
+              <input type="text" class="form-control" id="postCategory" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">محتوا</label>
+              <textarea class="form-control" rows="6" id="postContent" required></textarea>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">عکس مقاله</label>
+              <input type="file" class="form-control" id="postImage" accept="image/*">
+            </div>
+            <button type="submit" class="btn btn-success">ذخیره</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    const blogForm = document.getElementById('blogForm');
+    const blogTableBody = document.getElementById('blogTableBody');
+
+    blogForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      const title = document.getElementById('postTitle').value;
+      const category = document.getElementById('postCategory').value;
+      const content = document.getElementById('postContent').value;
+      const imageInput = document.getElementById('postImage');
+      const date = new Date().toLocaleDateString('fa-IR');
+      let imageTag = '<span class="text-muted">بدون عکس</span>';
+
+      if (imageInput.files && imageInput.files[0]) {
+        const imageURL = URL.createObjectURL(imageInput.files[0]);
+        imageTag = `<img src="${imageURL}" class="blog-image" alt="blog image">`;
+      }
+
+      const row = `
+        <tr>
+          <td>${imageTag}</td>
+          <td>${title}</td>
+          <td>${category}</td>
+          <td>${date}</td>
+          <td>0</td>
+          <td>
+            <button class="btn btn-sm btn-warning">ویرایش</button>
+            <button class="btn btn-sm btn-danger">حذف</button>
+          </td>
+        </tr>
+      `;
+
+      blogTableBody.innerHTML += row;
+      blogForm.reset();
+      const modal = bootstrap.Modal.getInstance(document.getElementById('addPostModal'));
+      modal.hide();
+    });
+  </script>
+</body>
+</html>

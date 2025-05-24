@@ -1,0 +1,21 @@
+body {
+  color: #0d6efd; /* رنگ آبی بوت‌استرپ (primary) یا هر رنگ دلخواه */
+  background-color: #fff;
+}
+
+.nav-link {
+  color: #0d6efd !important; /* یا رنگ دلخواه */
+}
+
+.nav-link:hover, .nav-link.active {
+  color: #0046b8 !important; /* رنگ آبی پررنگ‌تر برای حالت فعال یا هاور */
+  font-weight: 600;
+}
+
+
+.card {
+  transition: transform 0.2s ease-in-out;
+}
+.card:hover {
+  transform: translateY(-5px);
+}

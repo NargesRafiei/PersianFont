@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>پنل ادمین - کدهای تخفیف</title>
+  <!-- بوت‌استرپ RTL -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.rtl.min.css" rel="stylesheet" />
+  <!-- فونت فارسی وزیر -->
+  <link href="https://cdn.fontcdn.ir/woff/woff2/Vazir-font.css" rel="stylesheet" />
+
+    <link rel="stylesheet" href="css/style.css" />
+
+  <style>
+    table th, table td {
+      vertical-align: middle;
+    }
+    .btn-sm {
+      padding: 0.25rem 0.5rem;
+      font-size: 0.85rem;
+    }
+    .form-section {
+      background: white;
+      padding: 1rem 1.5rem;
+      border-radius: 6px;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 0 10px rgb(0 0 0 / 0.05);
+    }
+  </style>
+</head>
+<body>
+  <!-- نوار بالا -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary px-3">
+    <a class="navbar-brand text-white" href="index.html"> 📘 پنل مدیریت</a>
+  </nav>
+
+  <div class="container-fluid">
+    <div class="row">
+     <!-- سایدبار -->
+      <div class="col-md-2 bg-white shadow-sm pt-4" style="min-height: 100vh;">
+        <ul class="nav flex-column">
+          <li class="nav-item"><a class="nav-link text-dark" href="index.html">داشبورد</a></li>
+          <li class="nav-item"><a class="nav-link text-dark" href="fonts.html">مدیریت فونت‌ها</a></li>
+          <li class="nav-item"><a class="nav-link text-dark" href="orders.html">سفارش‌ها</a></li>
+          <li class="nav-item"><a class="nav-link text-dark" href="users.html">کاربران</a></li>
+          <li class="nav-item"><a class="nav-link text-dark" href="comments.html">نظرات</a></li>
+          <li class="nav-item"><a class="nav-link text-dark" href="discounts.html">کدهای تخفیف</a></li>
+          <li class="nav-item"><a class="nav-link active" href="blog.html">وبلاگ</a></li>
+       
+        </ul>
+      </div>
+
+      <!-- محتوا -->
+      <main class="col-md-10 pt-4">
+        <h2 class="mb-4">مدیریت کدهای تخفیف</h2>
+
+        <!-- فرم ایجاد کد تخفیف -->
+        <div class="form-section">
+          <form id="discountForm">
+            <div class="row g-3">
+              <div class="col-md-3">
+                <label for="codeInput" class="form-label">کد تخفیف</label>
+                <input type="text" id="codeInput" class="form-control" required />
+              </div>
+              <div class="col-md-2">
+                <label for="typeSelect" class="form-label">نوع تخفیف</label>
+                <select id="typeSelect" class="form-select">
+                  <option value="percent">درصدی</option>
+                  <option value="amount">مقداری</option>
+                </select>
+              </div>
+              <div class="col-md-2">
+                <label for="valueInput" class="form-label">مقدار</label>
+                <input type="number" id="valueInput" class="form-control" required />
+              </div>
+              <div class="col-md-2">
+                <label for="expireInput" class="form-label">تاریخ انقضا</label>
+                <input type="date" id="expireInput" class="form-control" required />
+              </div>
+              <div class="col-md-2">
+                <label for="limitInput" class="form-label">محدودیت استفاده</label>
+                <input type="number" id="limitInput" class="form-control" required />
+              </div>
+              <div class="col-md-1 d-flex align-items-end">
+                <div class="form-check">
+                  <input type="checkbox" id="activeCheckbox" class="form-check-input" checked />
+                  <label for="activeCheckbox" class="form-check-label">فعال</label>
+                </div>
+              </div>
+            </div>
+            <button class="btn btn-primary mt-3" type="submit">افزودن کد تخفیف</button>
+          </form>
+        </div>
+
+        <!-- جدول کدهای تخفیف -->
+        <div class="table-responsive">
+          <table class="table table-bordered table-striped">
+            <thead class="table-light">
+              <tr>
+                <th>کد</th>
+                <th>نوع</th>
+                <th>مقدار</th>
+                <th>تاریخ انقضا</th>
+                <th>محدودیت</th>
+                <th>استفاده‌شده</th>
+                <th>وضعیت</th>
+                <th>عملیات</th>
+              </tr>
+            </thead>
+            <tbody id="discountList"></tbody>
+          </table>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script>
+    const discountForm = document.getElementById("discountForm");
+    const discountList = document.getElementById("discountList");
+    const discounts = [];
+
+    function renderDiscounts() {
+      discountList.innerHTML = "";
+      discounts.forEach((d) => {
+        discountList.innerHTML += `
+          <tr>
+            <td>${d.code}</td>
+            <td>${d.type === "percent" ? "% درصدی" : "تومانی"}</td>
+            <td>${d.value}</td>
+            <td>${d.expireDate}</td>
+            <td>${d.usageLimit}</td>
+            <td>${d.usageCount}</td>
+            <td>${d.active ? "فعال" : "غیرفعال"}</td>
+            <td>
+              <button class="btn btn-sm btn-warning" onclick="toggleActive(${d.id})">تغییر وضعیت</button>
+              <button class="btn btn-sm btn-danger" onclick="deleteDiscount(${d.id})">حذف</button>
+            </td>
+          </tr>
+        `;
+      });
+    }
+
+    function toggleActive(id) {
+      const discount = discounts.find((d) => d.id === id);
+      if (discount) {
+        discount.active = !discount.active;
+        renderDiscounts();
+        alert("وضعیت کد به‌روزرسانی شد.");
+      }
+    }
+
+    function deleteDiscount(id) {
+      if (!confirm("آیا از حذف این کد مطمئن هستید؟")) return;
+      const index = discounts.findIndex((d) => d.id === id);
+      if (index !== -1) {
+        discounts.splice(index, 1);
+        renderDiscounts();
+        alert("کد تخفیف حذف شد.");
+      }
+    }
+
+    discountForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const newCode = {
+        id: Date.now(),
+        code: document.getElementById("codeInput").value.trim(),
+        type: document.getElementById("typeSelect").value,
+        value: parseInt(document.getElementById("valueInput").value),
+        expireDate: document.getElementById("expireInput").value,
+        usageLimit: parseInt(document.getElementById("limitInput").value),
+        usageCount: 0,
+        active: document.getElementById("activeCheckbox").checked,
+      };
+      discounts.push(newCode);
+      renderDiscounts();
+      discountForm.reset();
+      alert("کد تخفیف جدید ایجاد شد.");
+    });
+
+    renderDiscounts();
+  </script>
+</body>
+</html>

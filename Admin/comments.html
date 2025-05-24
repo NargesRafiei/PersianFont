@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>پنل ادمین - نظرات و بازخوردها</title>
+  <!-- بوت‌استرپ RTL -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.rtl.min.css" rel="stylesheet" />
+  <!-- فونت فارسی وزیر -->
+  <link href="https://cdn.fontcdn.ir/woff/woff2/Vazir-font.css" rel="stylesheet" />
+    <link href="css/style.css" rel="stylesheet" />
+  <style>
+
+    /* جدول */
+    table th, table td {
+      vertical-align: middle;
+    }
+    /* دکمه‌ها */
+    .btn-sm {
+      padding: 0.25rem 0.5rem;
+      font-size: 0.85rem;
+    }
+    /* ستاره‌های امتیاز */
+    .star {
+      color: gold;
+      font-size: 1.2rem;
+      cursor: pointer;
+    }
+    .star.gray {
+      color: #ccc;
+    }
+    /* پاسخ به نظر */
+    .reply-box {
+      margin-top: 0.5rem;
+    }
+  </style>
+</head>
+<body>
+ <!-- نوار بالا -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary px-3">
+    <a class="navbar-brand text-white" href="index.html"> 📘 پنل مدیریت</a>
+  </nav>
+
+  <div class="container-fluid">
+    <div class="row">
+    <!-- سایدبار -->
+      <div class="col-md-2 bg-white shadow-sm pt-4" style="min-height: 100vh;">
+        <ul class="nav flex-column">
+          <li class="nav-item"><a class="nav-link text-dark" href="index.html">داشبورد</a></li>
+          <li class="nav-item"><a class="nav-link text-dark" href="fonts.html">مدیریت فونت‌ها</a></li>
+          <li class="nav-item"><a class="nav-link text-dark" href="orders.html">سفارش‌ها</a></li>
+          <li class="nav-item"><a class="nav-link text-dark" href="users.html">کاربران</a></li>
+          <li class="nav-item"><a class="nav-link text-dark" href="comments.html">نظرات</a></li>
+          <li class="nav-item"><a class="nav-link text-dark" href="discounts.html">کدهای تخفیف</a></li>
+          <li class="nav-item"><a class="nav-link active" href="blog.html">وبلاگ</a></li>
+       
+        </ul>
+      </div>
+
+      <!-- محتوای اصلی -->
+      <main class="col-md-10 pt-4">
+        <h2 class="mb-4">مدیریت نظرات و بازخوردها</h2>
+
+        <!-- جدول نظرات -->
+        <div class="table-responsive">
+          <table class="table table-striped table-hover">
+            <thead class="table-primary">
+              <tr>
+                <th>نام کاربر</th>
+                <th>محصول</th>
+                <th>نظر</th>
+                <th>امتیاز</th>
+                <th>وضعیت</th>
+                <th>اقدامات</th>
+              </tr>
+            </thead>
+            <tbody id="commentsTableBody">
+              <!-- نظرات اینجا رندر می‌شود -->
+            </tbody>
+          </table>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- مدال پاسخ به نظر -->
+  <div
+    class="modal fade"
+    id="replyModal"
+    tabindex="-1"
+    aria-labelledby="replyModalLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header bg-primary text-white">
+          <h5 class="modal-title" id="replyModalLabel">پاسخ به نظر</h5>
+          <button
+            type="button"
+            class="btn-close btn-close-white"
+            data-bs-dismiss="modal"
+            aria-label="بستن"
+          ></button>
+        </div>
+        <div class="modal-body">
+          <textarea
+            id="replyText"
+            class="form-control"
+            rows="4"
+            placeholder="متن پاسخ خود را وارد کنید..."
+          ></textarea>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+            لغو
+          </button>
+          <button type="button" class="btn btn-primary" onclick="submitReply()">
+            ارسال پاسخ
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- اسکریپت‌ها -->
+  <script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+  ></script>
+  <script>
+    // داده نمونه نظرات
+    const comments = [
+      {
+        id: 1,
+        userName: "رضا رضایی",
+        product: "فونت نستعلیق",
+        text: "فونت خیلی خوب و زیباست، ممنون!",
+        rating: 5,
+        status: "در انتظار",
+        reply: null,
+      },
+      {
+        id: 2,
+        userName: "مینا احمدی",
+        product: "فونت وزیر",
+        text: "کیفیت فونت خوبه ولی قیمتش بالاست.",
+        rating: 3,
+        status: "تأیید شده",
+        reply: "ممنون از نظر شما، تلاش می‌کنیم قیمت مناسب‌تر شود.",
+      },
+      {
+        id: 3,
+        userName: "سارا موسوی",
+        product: "فونت ایران‌سنس",
+        text: "امتیاز خوبی داره ولی انتظار کیفیت بهتر داشتم.",
+        rating: 4,
+        status: "رد شده",
+        reply: null,
+      },
+    ];
+
+    let currentReplyId = null;
+
+    // رندر لیست نظرات
+    function renderComments() {
+      const tbody = document.getElementById("commentsTableBody");
+      tbody.innerHTML = "";
+      if (comments.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="6" class="text-center">هیچ نظری وجود ندارد</td></tr>`;
+        return;
+      }
+      comments.forEach((c) => {
+        tbody.innerHTML += `
+          <tr>
+            <td>${c.userName}</td>
+            <td>${c.product}</td>
+            <td>
+              ${c.text}
+              ${
+                c.reply
+                  ? `<div class="reply-box mt-2 p-2 border rounded bg-light"><strong>پاسخ ادمین:</strong> ${c.reply}</div>`
+                  : ""
+              }
+            </td>
+            <td>${renderStars(c.rating)}</td>
+            <td>${c.status}</td>
+            <td>
+              ${
+                c.status === "در انتظار"
+                  ? `<button class="btn btn-success btn-sm me-1" onclick="changeStatus(${c.id}, 'تأیید شده')">تأیید</button>
+                     <button class="btn btn-warning btn-sm me-1" onclick="changeStatus(${c.id}, 'رد شده')">رد</button>`
+                  : ""
+              }
+              <button class="btn btn-info btn-sm me-1" onclick="openReplyModal(${c.id})">پاسخ</button>
+              <button class="btn btn-danger btn-sm" onclick="deleteComment(${c.id})">حذف</button>
+            </td>
+          </tr>
+        `;
+      });
+    }
+
+    // تابع نمایش ستاره‌ها برای امتیازدهی
+    function renderStars(rating) {
+      let starsHTML = "";
+      for (let i = 1; i <= 5; i++) {
+        starsHTML += i <= rating ? "★" : "☆";
+      }
+      return `<span style="color:gold; font-size:1.2rem;">${starsHTML}</span>`;
+    }
+
+    // تغییر وضعیت نظر
+    function changeStatus(id, newStatus) {
+      const c = comments.find((c) => c.id === id);
+      if (!c) return;
+      c.status = newStatus;
+      renderComments();
+      alert("وضعیت نظر به " + newStatus + " تغییر کرد.");
+    }
+
+    // حذف نظر
+    function deleteComment(id) {
+      if (!confirm("آیا از حذف این نظر مطمئن هستید؟")) return;
+      const index = comments.findIndex((c) => c.id === id);
+      if (index !== -1) {
+        comments.splice(index, 1);
+        renderComments();
+        alert("نظر حذف شد.");
+      }
+    }
+
+    // باز کردن مدال پاسخ
+    function openReplyModal(id) {
+      currentReplyId = id;
+      const comment = comments.find((c) => c.id === id);
+      if (!comment) return;
+      document.getElementById("replyText").value = comment.reply || "";
+      const replyModal = new bootstrap.Modal(document.getElementById("replyModal"));
+      replyModal.show();
+    }
+
+    // ثبت پاسخ
+    function submitReply() {
+      const text = document.getElementById("replyText").value.trim();
+      if (currentReplyId === null) return;
+      const comment = comments.find((c) => c.id === currentReplyId);
+      if (!comment) return;
+      comment.reply = text || null;
+      renderComments();
+      const replyModalEl = document.getElementById("replyModal");
+      const modal = bootstrap.Modal.getInstance(replyModalEl);
+      modal.hide();
+      alert("پاسخ ثبت شد.");
+    }
+
+    // رندر اولیه
+    renderComments();
+  </script>
+</body>
+</html>

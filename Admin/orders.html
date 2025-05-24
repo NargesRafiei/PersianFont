@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>مدیریت سفارش‌ها</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.rtl.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazir-font@v30.1.0/dist/font-face.css" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body style="font-family: 'Vazir', Tahoma, sans-serif;">
+
+
+
+  <!-- نوار بالا -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary px-3">
+    <a class="navbar-brand text-white" href="#">📘 پنل مدیریت</a>
+  </nav>
+
+<div class="container-fluid">
+  <div class="row">
+   <!-- سایدبار -->
+      <div class="col-md-2 bg-white shadow-sm pt-4" style="min-height: 100vh;">
+        <ul class="nav flex-column">
+          <li class="nav-item"><a class="nav-link text-dark" href="index.html">داشبورد</a></li>
+          <li class="nav-item"><a class="nav-link text-dark" href="fonts.html">مدیریت فونت‌ها</a></li>
+          <li class="nav-item"><a class="nav-link text-dark" href="orders.html">سفارش‌ها</a></li>
+          <li class="nav-item"><a class="nav-link text-dark" href="users.html">کاربران</a></li>
+          <li class="nav-item"><a class="nav-link text-dark" href="comments.html">نظرات</a></li>
+          <li class="nav-item"><a class="nav-link text-dark" href="discounts.html">کدهای تخفیف</a></li>
+          <li class="nav-item"><a class="nav-link active" href="blog.html">وبلاگ</a></li>
+       
+        </ul>
+      </div>
+
+    <!-- محتوای اصلی -->
+    <div class="col-md-10 pt-4">
+
+      <h2 class="mb-4 text-primary">مدیریت سفارش‌ها</h2>
+
+      <div class="row mb-3 g-3">
+        <div class="col-auto">
+          <label for="filterDate" class="form-label">فیلتر بر اساس تاریخ</label>
+          <input type="date" id="filterDate" class="form-control" />
+        </div>
+        <div class="col-auto">
+          <label for="filterPaymentStatus" class="form-label">وضعیت پرداخت</label>
+          <select id="filterPaymentStatus" class="form-select">
+            <option value="">همه</option>
+            <option value="موفق">موفق</option>
+            <option value="ناموفق">ناموفق</option>
+            <option value="در انتظار">در انتظار</option>
+          </select>
+        </div>
+      </div>
+
+      <table class="table table-bordered table-striped align-middle text-center">
+        <thead class="table-primary">
+          <tr>
+            <th>کد سفارش</th>
+            <th>نام کاربر</th>
+            <th>محصول</th>
+            <th>تاریخ</th>
+            <th>مبلغ (تومان)</th>
+            <th>وضعیت پرداخت</th>
+            <th>عملیات</th>
+          </tr>
+        </thead>
+        <tbody id="ordersTableBody">
+          <!-- سفارش‌ها اینجا نمایش داده می‌شوند -->
+        </tbody>
+      </table>
+
+      <!-- مدال جزئیات سفارش -->
+      <div class="modal fade" id="orderDetailModal" tabindex="-1" aria-labelledby="orderDetailModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content" style="font-family: 'Vazir', Tahoma, sans-serif;">
+            <div class="modal-header bg-primary text-white">
+              <h5 class="modal-title" id="orderDetailModalLabel">جزئیات سفارش</h5>
+              <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="بستن"></button>
+            </div>
+            <div class="modal-body text-right">
+              <p><strong>نام کاربر:</strong> <span id="modalOrderUserName"></span></p>
+              <p><strong>محصول:</strong> <span id="modalOrderProduct"></span></p>
+              <p><strong>تاریخ:</strong> <span id="modalOrderDate"></span></p>
+              <p><strong>مبلغ:</strong> <span id="modalOrderAmount"></span> تومان</p>
+              <p><strong>وضعیت پرداخت:</strong> <span id="modalOrderPaymentStatus"></span></p>
+            </div>
+            <div class="modal-footer">
+              <a id="modalInvoiceLink" href="#" target="_blank" class="btn btn-success" style="display:none;">دانلود فاکتور</a>
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">بستن</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+  const OrderManager = (function () {
+    let orders = [
+      { id: 1, userName: "علی رضایی", product: "فونت سریفی", date: "2025-05-20", amount: 25000, paymentStatus: "موفق", invoiceUrl: "https://example.com/invoice/1.pdf" },
+      { id: 2, userName: "سارا احمدی", product: "فونت دست‌نویس", date: "2025-05-22", amount: 0, paymentStatus: "ناموفق", invoiceUrl: null },
+      { id: 3, userName: "رضا کریمی", product: "فونت عادی", date: "2025-05-23", amount: 15000, paymentStatus: "در انتظار", invoiceUrl: null },
+    ];
+
+    const ordersTableBody = document.getElementById("ordersTableBody");
+    const filterDateInput = document.getElementById("filterDate");
+    const filterStatusInput = document.getElementById("filterPaymentStatus");
+    const orderDetailModal = new bootstrap.Modal(document.getElementById("orderDetailModal"));
+    const modalOrderUserName = document.getElementById("modalOrderUserName");
+    const modalOrderProduct = document.getElementById("modalOrderProduct");
+    const modalOrderDate = document.getElementById("modalOrderDate");
+    const modalOrderAmount = document.getElementById("modalOrderAmount");
+    const modalOrderPaymentStatus = document.getElementById("modalOrderPaymentStatus");
+    const modalInvoiceLink = document.getElementById("modalInvoiceLink");
+
+    function refreshTable() {
+      const filterDate = filterDateInput.value;
+      const filterStatus = filterStatusInput.value;
+
+      let filtered = orders.filter(order => {
+        let matchDate = true;
+        if (filterDate) {
+          matchDate = order.date === filterDate;
+        }
+        let matchStatus = filterStatus ? order.paymentStatus === filterStatus : true;
+        return matchDate && matchStatus;
+      });
+
+      let html = "";
+      filtered.forEach(o => {
+        html += `
+          <tr>
+            <td>${o.id}</td>
+            <td>${o.userName}</td>
+            <td>${o.product}</td>
+            <td>${o.date}</td>
+            <td>${o.amount.toLocaleString()}</td>
+            <td>${o.paymentStatus}</td>
+            <td>
+              <button class="btn btn-sm btn-info mx-1" onclick="OrderManager.showDetails(${o.id})">جزئیات</button>
+              ${o.invoiceUrl ? `<a href="${o.invoiceUrl}" target="_blank" class="btn btn-sm btn-success mx-1">فاکتور</a>` : ""}
+            </td>
+          </tr>
+        `;
+      });
+
+      ordersTableBody.innerHTML = html;
+    }
+
+    function showDetails(id) {
+      const order = orders.find(o => o.id === id);
+      if (!order) return alert("سفارش پیدا نشد!");
+
+      modalOrderUserName.textContent = order.userName;
+      modalOrderProduct.textContent = order.product;
+      modalOrderDate.textContent = order.date;
+      modalOrderAmount.textContent = order.amount.toLocaleString();
+      modalOrderPaymentStatus.textContent = order.paymentStatus;
+
+      if (order.invoiceUrl) {
+        modalInvoiceLink.href = order.invoiceUrl;
+        modalInvoiceLink.style.display = "inline-block";
+      } else {
+        modalInvoiceLink.style.display = "none";
+      }
+
+      orderDetailModal.show();
+    }
+
+    function bindEvents() {
+      filterDateInput.addEventListener("change", refreshTable);
+      filterStatusInput.addEventListener("change", refreshTable);
+    }
+
+    function init() {
+      bindEvents();
+      refreshTable();
+    }
+
+    return {
+      init,
+      showDetails,
+    };
+  })();
+
+  window.addEventListener("DOMContentLoaded", () => {
+    OrderManager.init();
+  });
+</script>
+
+</body>
+</html>
